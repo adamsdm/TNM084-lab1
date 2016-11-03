@@ -156,26 +156,53 @@ int main(int argc, char *argv[]) {
 		    for(j=0; j<IMAGE_SIZE; j++)
 			{
 				y = (double)j / IMAGE_SIZE;
-
-				// Perlin noise
-				red = 128 + 127*noise3(8.0*x, 8.0*y, 0.5*time);
-
-				// Cellular (Worley) noise
+				
+//				// Perlin noise
+//				red  = 0.5000*(128 + 127*noise3(8.0*x, 8.0*y, 0.5*time) );
+//				red += 0.2500*(128 + 127*noise3(16.0*x, 16.0*y, 1*time) );
+//				red += 0.1250*(128 + 127*noise3(16.0*x, 16.0*y, 1*time) );
+//
+//				// Cellular (Worley) noise
 //				point[0] = 12.0*x;
 //				point[1] = 12.0*y;
 //				point[2] = 0.2*time;
 //				Worley(point, 2, F, delta, ID);
 //				red = 120*(F[1]-F[0]);
-
-				// Set red=grn=blu for grayscale image
-				grn = red;
-				blu = red;
-
+				
+				
+				
+				
+				
+				
+				/* FIRST RANDOM PATTERN */
+				
+				// 1+sin(time)/2 gets value between 0-1 which is scaled to x and y to create the shape of an ellips
+				red = 2000 *sqrt( (1+sin(time))/2*pow(x-.5,2)+(1+sin(time+1.57)/2)*pow(y-.5,2));
+				
+				//
+				red += 0.5000*(128 + 127*noise3(8.0*x, 8.0*y, 2.0*time) );
+				
+				
 				k = (i + j*IMAGE_SIZE)*4;
-				pixels[k] = red;
-				pixels[k + 1] = grn;
-				pixels[k + 2] = blu;
+				pixels[k    ] = 0.2*red; 
+				pixels[k + 1] = 0;
+				pixels[k + 2] = 0.8*red;
 				pixels[k + 3] = 255;
+				
+				
+				/* ANOTHER RANDOM PATTERN 
+				red  = 0.5000*(128 + 127*noise3(8.0*sin(x), 8.0*y, 2.0*time) );
+				red += 0.2500*(128 + 127*noise3(16.0*x, 16.0*y, 1.0) );
+				
+				red += 1100*sqrt( pow(x,2) );
+				
+								
+				k = (i + j*IMAGE_SIZE)*4;
+				pixels[k    ] = red; 
+				pixels[k + 1] = red;
+				pixels[k + 2] = red;
+				pixels[k + 3] = 255;
+				*/				
 		    }
 	    }
 		
