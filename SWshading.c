@@ -156,20 +156,27 @@ int main(int argc, char *argv[]) {
 		    for(j=0; j<IMAGE_SIZE; j++)
 			{
 				y = (double)j / IMAGE_SIZE;
-
+				
+				//red = ((pow(x-0.5,2)+pow(y-0.5,2)) < 0.01) ? 255 : 0;
+				
+				//pshycadelic circle noise shifting with time
+				red = 2000*sin(time+1/2)*(pow(x-0.5,2)+pow(y-0.5,2))+128*noise3(8.0*x, 8.0*y, 2.0*time);
+				
 				// Perlin noise
-				red = 128 + 127*noise3(8.0*x, 8.0*y, 0.5*time);
-
+				//red = 0.5*(128 + 127*noise3(8.0*x, 8.0*y, 0.5*time));
+				//red += 0.25 * (128 + 127*noise3(16.0*x, 16.0*y, 0.5*time));
+				//red += 0.125 * (128 + 127*noise3(32.0*x, 32.0*y, 0.5*time));
+				
 				// Cellular (Worley) noise
 //				point[0] = 12.0*x;
-//				point[1] = 12.0*y;
+//				point[1] = 6.0*y;
 //				point[2] = 0.2*time;
 //				Worley(point, 2, F, delta, ID);
 //				red = 120*(F[1]-F[0]);
 
 				// Set red=grn=blu for grayscale image
-				grn = red;
-				blu = red;
+				grn = red*sin(time+1/2);
+				blu = red*sin(time+1/2+3.14);
 
 				k = (i + j*IMAGE_SIZE)*4;
 				pixels[k] = red;
